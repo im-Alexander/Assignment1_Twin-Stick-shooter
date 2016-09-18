@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/_Scenes/Duck-U-Up.unity
+  isLoaded: 1
+  isActive: 1
