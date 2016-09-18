@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Assets\_Scripts\Duck_Behavior.cs" />
     <Compile Include="Assets\_Scripts\Duck_laser_beam.cs" />
+    <Compile Include="Assets\_Scripts\Enemy_Behavior.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
