@@ -24,6 +24,11 @@ public class Duck_Behavior : MonoBehaviour
     private float timeTilNextFire = 0.0f;
     // The buttons that we can use to shoot lasers
     public List<KeyCode> shootButton;
+
+	//What sound to play when we're shooting
+	public AudioClip shootSound;
+	// Reference to our AudioSource compoment
+	private AudioSource audioSource;
     #endregion
 
     //start function
@@ -37,6 +42,9 @@ public class Duck_Behavior : MonoBehaviour
         //for movement
         this.currentSpeed = 0.0f;
         this.lastMovement = new Vector3();
+
+		// To initalize the audio property
+		audioSource = GetComponent<AudioSource> ();
     }
     #endregion
 
@@ -87,8 +95,8 @@ public class Duck_Behavior : MonoBehaviour
     {
         Vector3 movement = new Vector3();
 
-        movement.x += Input.GetAxis("Horizontal");
-        movement.y += Input.GetAxis("Vertical");
+        movement.x += Input.GetAxisRaw("Horizontal");
+        movement.y += Input.GetAxisRaw("Vertical");
 
         movement.Normalize();
 
@@ -115,6 +123,8 @@ public class Duck_Behavior : MonoBehaviour
         laserPos.y += (Mathf.Sin((rotationAngle) * Mathf.Deg2Rad) * -laserDistance);
 
         Instantiate(laser, laserPos, this.transform.rotation);
+
+		audioSource.PlayOneShot (shootSound);
     }
     #endregion
 }
