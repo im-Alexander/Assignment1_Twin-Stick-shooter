@@ -49,6 +49,7 @@
      <Compile Include="Assets\_Scripts\Duck_laser_beam.cs" />
      <Compile Include="Assets\_Scripts\Enemy_Behavior.cs" />
      <Compile Include="Assets\_Scripts\GameController.cs" />
+     <Compile Include="Assets\_Scripts\MenuController.cs" />
      <Compile Include="Assets\_Scripts\Move_Towards_Player.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

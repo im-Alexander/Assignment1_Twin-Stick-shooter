@@ -57,10 +57,4 @@ public class Enemy_Behavior : MonoBehaviour {
 			controller.IncreaseScore (10);
 		}
 	}
-
-	// Increases the hp each round
-	public void HpIncrease()
-	{
-		health++;
-	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -14,18 +15,42 @@ public class GameController : MonoBehaviour {
 	public double enemiesPerWave = 10;
 	private int currentNumberOfEnemies = 0;
 
-	[Header("User Interface")]
+    [Header("User Interface")]
 	// The actual GUI text objects
 	public Text scoreText;
 	public Text waveText;
 	public Text hpText;
+	public Text gameOverLabel;
+	public Text finalScore;
+	public Text finalWave;
+	private string waveWaves; //waveWaves is used to decide if the player lost on wave 1
+	public Button reset;
 	// The values we'll be printing
 	private int score = 0;
 	private int waveNumber = 0;
 	private int hp = 10;
 
-	//This Corutine will spawn in the enemies
-	IEnumerator SpawnEnemies (){
+	[Header("Game Objects")]
+	public GameObject duck;
+
+    // Use this for initialization
+    void Start()
+    {
+		this.gameOverLabel.gameObject.SetActive (false);
+		this.finalScore.gameObject.SetActive (false);
+		this.finalWave.gameObject.SetActive (false);
+		this.reset.gameObject.SetActive (false);
+        StartCoroutine(SpawnEnemies());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    //This Corutine will spawn in the enemies
+    IEnumerator SpawnEnemies (){
 		//Give the player time before the start of the game
 		yield return new WaitForSeconds(timeBeforeSpawning);
 
@@ -35,6 +60,7 @@ public class GameController : MonoBehaviour {
 			//This will check if there are any enemies left on the feild
 			if (currentNumberOfEnemies <= 0) 
 			{
+                //This will display the wave number
 				waveNumber++;
 				waveText.text = "Wave: " + waveNumber;
 				//This will spawn 10 enemies in a random position
@@ -56,9 +82,8 @@ public class GameController : MonoBehaviour {
 					currentNumberOfEnemies++;
 					yield return new WaitForSeconds (timeBetweenEnemies);
 				}
+                // This will increase the amount of enemies per wave
 				enemiesPerWave *= 1.3;
-				//Enemy_Behavior controller2 = GameObject.FindGameObjectWithTag ("GameController").GetComponent<Enemy_Behavior>();
-				//controller2.HpIncrease ();
 			}
 			//How much time to wait before checking if we need to spawn another wave
 			yield return new WaitForSeconds(timeBeforeWaves);
@@ -82,16 +107,36 @@ public class GameController : MonoBehaviour {
 	public void DecreaseHp(int decrease)
 	{
 		hp -= decrease;
-		hpText.text = "Health: " + hp + "/10";
+		if (this.hp <= 0) {
+			this._endGame ();
+		} else {
+			hpText.text = "Health: " + hp + "/10";
+		}
 	}
 
-	// Use this for initialization
-	void Start () {
-		StartCoroutine (SpawnEnemies ());
+	//This will display the game over text
+	private void _endGame (){
+		this.gameOverLabel.gameObject.SetActive (true);
+		this.finalScore.text = "Final Score: " + this.score;
+		this.finalScore.gameObject.SetActive (true);
+		this.scoreText.gameObject.SetActive (false);
+		this.waveText.gameObject.SetActive (false);
+		this.hpText.gameObject.SetActive (false);
+		this.duck.gameObject.SetActive (false);
+		this.reset.gameObject.SetActive (true);
+		//This will choose the appropriate text
+		if (waveNumber > 1) {
+			waveWaves = "waves";
+		}
+		else{
+			waveWaves = "wave";
+		}
+		this.finalWave.text = "You survived " + this.waveNumber + " " + this.waveWaves + " before you got rekt!";
+		this.finalWave.gameObject.SetActive (true);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	//This will reset my scene when the restart button is clicked
+	public void restart_Click (){
+		SceneManager.LoadScene ("Game");
 	}
 }
